@@ -1,0 +1,31 @@
+[
+    {
+      "title": "Inovações no Mercado de Tecnologia em 2025",
+      "content": "Com o avanço da inteligência artificial e da computação quântica, o mercado de tecnologia está prestes a passar por uma revolução. Descubra as tendências que dominarão os próximos anos.",
+      "type": "Tecnologia",
+      "imagePost": "https://example.com/images/tech-innovation-2025.jpg",
+      "imageProfile": "https://example.com/images/tech-author.jpg"
+    },
+    {
+      "title": "Como Montar uma Startup de Sucesso",
+      "content": "A construção de uma startup de sucesso exige mais do que uma boa ideia. Veja os passos essenciais, desde a validação do mercado até a escalabilidade do seu negócio.",
+      "type": "Startups",
+      "imagePost": "https://example.com/images/startup-success.jpg",
+      "imageProfile": "https://example.com/images/startup-founder.jpg"
+    },
+    {
+      "title": "Equilibrando Carreira e Estilo de Vida Saudável",
+      "content": "Com a correria do dia a dia, equilibrar a vida profissional com hábitos saudáveis é um desafio. Veja dicas práticas para manter sua saúde física e mental em dia.",
+      "type": "Lifestyle",
+      "imagePost": "https://example.com/images/lifestyle-balance.jpg",
+      "imageProfile": "https://example.com/images/lifestyle-author.jpg"
+    },
+    {
+      "title": "O Futuro da Inteligência Artificial nas Empresas",
+      "content": "A IA não é mais uma tendência do futuro, ela está presente agora! Saiba como as empresas estão usando a inteligência artificial para aumentar a eficiência e melhorar a experiência do cliente.",
+      "type": "Tecnologia",
+      "imagePost": "https://example.com/images/ai-future-business.jpg",
+      "imageProfile": "https://example.com/images/ai-expert.jpg"
+    }
+  ]
+  
