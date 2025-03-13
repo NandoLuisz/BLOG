@@ -1,48 +1,44 @@
-import { ArrowRight } from 'lucide-react';
-
+import HeaderAllPosts from "@/components/header-all-posts";
 import data from "../../data.json"
+import MostPopularPost from '@/components/most-popular-post';
+import MainIntroPosts from "@/components/main-intro-posts";
+
+import { ArrowUpRight } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className='w-full min-h-screen font-poppins '>
-      <header className='w-full h-[20vh]'>
-        <div className="flex items-center justify-between px-12 py-3">
-          <div className='flex items-center cursor-pointer'>
-            <img src="/icon-logo.png" width={66} height={66} alt="Logo" />
-            <span className="text-black text-2xl font-semibold tracking-tighter">NFL's Blogger</span>
-          </div>
-            <div className="flex items-center justify-center px-4 py-2 border-[0.5px] 
-                          border-black text-black text-base cursor-pointer shadow-links hover:shadow-links-move">
-              Começar
-              <ArrowRight />
-            </div>
+    <div className='w-full min-h-screen font-poppins'>
+      <HeaderAllPosts />
+      <MainIntroPosts />
+      <section className='w-full flex flex-col items-center'>
+        <MostPopularPost />
+        <div className="w-[78%] grid grid-cols-4 gap-5">
+          {data.map((post, index) => 
+            index === 0 ? (
+              null
+            ) : (
+              <div key={index} className="border-[0.5px] border-black hover:shadow-links">
+                <img src={post.imagePost} alt="" className='w-full'/>
+                <div className="w-full px-2 py-2 flex flex-col gap-2">
+                  <div className="w-full flex items-center justify-between ">
+                    <img src={post.imageProfile} alt="" className='w-[50px] h-[50px]'/>
+                    <p className="bg-black text-white px-1 py-1 text-xs">{post.type}</p>
+                  </div>
+                  <p>Amélia Leurent</p>
+                  <p>{post.title}</p>
+                  <button className="flex">
+                      Ler mais
+                      <ArrowUpRight />
+                  </button>
+                </div>
+              </div>
+            )
+          )}
         </div>
-      </header>
-      <main className='w-full min-h-[30vh] flex justify-center'>
-        <div className='w-full text-center flex flex-col items-center gap-8'>
-          <h1 className='text-5xl font-semibold'>Últimos Posts</h1>
-          <p className='w-[60%]'>
-            Fique por dentro das últimas novidades em tecnologia, startups e lifestyle. 
-            Explore conteúdos exclusivos, tendências do mercado e insights valiosos para se manter sempre atualizado!
-          </p>
-          <div className='w-[500px] shadow-links'>
-            <input 
-              type="text" 
-              placeholder='Entre com seu e-mail'
-              className='w-[350px] border-[0.5px] border-black px-4 py-2  outline-none'
-            />
-            <button className='w-[150px] border-[0.5px] px-4 py-2 border-black cursor-pointer'>Inscrever-se</button>
-          </div>
-        </div>
-      </main>
-      <section>
-        {data.map((post) => {
-          return (
-            <p>{post.title}</p>
-          )
-        })}
       </section>
-      <footer></footer>
+      <footer className="w-full h-[40vh] bg-black mt-20">
+
+      </footer>
     </div>
   );
 }
