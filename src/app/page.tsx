@@ -1,14 +1,11 @@
-import HeaderAllPosts from "@/components/header-all-posts";
-import MostPopularPost from '@/components/most-popular-post';
-import MainIntroPosts from "@/components/main-intro-posts";
-
-import { ArrowUpRight } from 'lucide-react';
-
-import Link from "next/link";
+import HeaderAllPosts from "@/components/header-all-posts"
+import MostPopularPost from '@/components/most-popular-post'
+import MainIntroPosts from "@/components/main-intro-posts"
 
 import data from "../../data.json"
-import Footer from "@/components/footer";
-import CardPost from "@/components/card-post";
+
+import Footer from "@/components/footer"
+import CardPost from "@/components/card-post"
 
 export default function Home() {
   return (
@@ -40,7 +37,6 @@ export default function Home() {
           )}
         </div>
       </section>
-      
       <Footer />
     </div>
   );

@@ -11,11 +11,13 @@ export default function HeaderAllPosts(){
                         <span className="text-black text-2xl font-semibold tracking-tighter">NFL's Blogger</span>
                     </div>
                 </Link>
+               <Link href="auth/login">
                 <div className="flex items-center justify-center gap-2 px-4 py-2 border-[0.5px] 
-                            border-black text-black text-base cursor-pointer shadow-links hover:shadow-links-move">
-                Começar
-                <ArrowRight />
-                </div>
+                                border-black text-black text-base cursor-pointer shadow-links hover:shadow-links-move">
+                        Começar
+                        <ArrowRight />
+                    </div>
+               </Link>
             </div>
         </header>
     )
