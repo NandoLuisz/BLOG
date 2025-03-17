@@ -2,16 +2,16 @@ import { api } from "@/lib/api"
 
 export interface CreatorResponse{
     id: string
-    name: string
+    username: string
     email: string
-    imageProfile: string
+    imageProfileUrl: string
 }
 
 export interface PostResponse{
     id: string
     title: string
     content: string
-    imageURL: string
+    imagePostUrl: string
     creator: CreatorResponse
     createdAt: string
     type: string

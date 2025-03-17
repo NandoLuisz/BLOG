@@ -13,8 +13,8 @@ import { getAllPosts, PostResponse } from "@/api/get-all-posts"
 
 export default function Home() {
   const [selectFilter, setSelectFilter] = useState<string>("Todos")
-  const [postsFiltered, setPostsFiltered] = useState<PostResponse[]>([])
-  const [allPosts, setAllPosts] = useState<PostResponse[]>([])
+  const [postsFiltered, setPostsFiltered] = useState<PostResponse[] | null>([])
+  const [allPosts, setAllPosts] = useState<PostResponse[] | null>([])
 
   useEffect(() => {
         async function fetchPost() {
@@ -22,6 +22,8 @@ export default function Home() {
               const posts = await getAllPosts()
               if (posts != null) {
                 setAllPosts(posts)   
+              }else{
+                console.log(posts)
               }
           } catch (error) {
               console.error("Erro ao buscar o post:", error)
@@ -31,6 +33,8 @@ export default function Home() {
         fetchPost()
   
     }, [])
+
+    if(allPosts == null) return null
 
   useEffect(() => {
     const filtered = selectFilter !== "Todos"
@@ -65,17 +69,20 @@ export default function Home() {
           )}
         </div>
         <div className="w-[78%] grid grid-cols-4 gap-5">
-          {postsFiltered.slice(1).map((post) => (
-            <CardPost 
-              key={post.id} 
-              id={post.id} 
-              imageURL={post.imageURL} 
-              type={post.type} 
-              creator={post.creator} 
-              title={post.title}
-              createdAt={post.createdAt}
-            />
-          ))}
+          {postsFiltered && postsFiltered.length > 0 ? (
+            postsFiltered.slice(1).map((post: PostResponse) => (
+              <CardPost 
+                key={post.id} 
+                id={post.id} 
+                imagePostUrl={post.imagePostUrl} 
+                type={post.type} 
+                creator={post.creator} 
+                title={post.title}
+              />
+            ))
+          ) : (
+            <h2 className="w-full font-semibold text2xl">Não tem posts. Seja o primeiro a fazer um!</h2>
+          )}
         </div>
       </section>
       <Footer />

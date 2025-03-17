@@ -3,9 +3,7 @@ import { PostResponse } from "./get-all-posts"
 
 
 export async function lastPost(){
-    const response = await api.get<PostResponse>('post/last-post')
-
-    console.log(response.data)
+    const response = await api.get<PostResponse | null>('post/last-post')
 
     return response.data
 }
