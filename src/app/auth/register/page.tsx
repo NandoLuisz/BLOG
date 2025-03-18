@@ -24,13 +24,15 @@ export default function SingUp(){
       setError,
       reset,
       formState: { errors, isSubmitting },
-    } = useForm<RegisterFormFields>({})
+    } = useForm<RegisterFormFields>()
 
     const onSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
         const result = userRegisterFormSchema.safeParse(data) 
+        
         if(!result.success) return 
     
         const { username, email, password } = data
+
         const role  = "ADMIN"
         const user = {
           username,
@@ -40,9 +42,9 @@ export default function SingUp(){
         }
     
         try {
-          const response = await api.post("creator/create-creator", JSON.stringify(user))
+          const response = await api.post("auth/register-creator", JSON.stringify(user))
           if(response.status === 200) console.log("Usuário cadastrado com sucesso!")
-          reset()      
+          reset()  
         } catch (error: any) {
           if (error.response && error.response.status === 400) {
             const errorMessage = error.response.data
@@ -61,6 +63,8 @@ export default function SingUp(){
             setError("root", { message: "Erro de conexão com o servidor." });
           }
         }
+
+        console.log(user)
       }
 
     return(
@@ -73,7 +77,7 @@ export default function SingUp(){
                     Voltar para os posts
                 </button>
             </Link>
-            <div className="w-[450px] h-[600px] bg-white border-[0.5px] flex
+            <div className="w-[450px] min-h-[600px] bg-white border-[0.5px] flex
                             flex-col items-center gap-2 border-black px-6 py-6 rounded-md">
                 <img src="/icon-logo.png" width={50} height={50} alt="Logo" />
                 <h1 className="font-semibold font-roboto text-xl">Bem-vindo ao NFL's Blogger!</h1>  
@@ -93,7 +97,7 @@ export default function SingUp(){
                     <div className="w-full h-[0.5px] bg-zinc-200"></div>
                 </div>
                 <form 
-                    className="w-full h-[35%] flex flex-col gap-1"
+                    className="w-full min-h-[35%] flex flex-col gap-1"
                     onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col">
                         <span className="font-medium">Usuário</span>
@@ -125,7 +129,7 @@ export default function SingUp(){
                             type="email" 
                             placeholder="exemplo@gmail.com" 
                             className="py-2 px-2 border-b-2 border-zinc-300 outline-none"/>
-                            {errors.email && <span className="text-red-700 text-xs">{errors.email.message}</span>}
+                            {errors.email && <span className="text-red-700 text-xs mb-5">{errors.email.message}</span>}
                     </div>
                     <div className="flex flex-col">
                         <span className="font-medium">Senha</span>
@@ -152,7 +156,7 @@ export default function SingUp(){
                     </button>
                     {errors.root && <span className="text-red-700 text-xs">{errors.root.message}</span> }
                 </form>
-                <span className="text-sm text-zinc-500 mt-[75px] text-center">
+                <span className="text-sm text-zinc-500 mt-2 text-center">
                     Ao clicar em registrar, você concorda com os Termos de Serviços 
                     e a Política de Privacidade do NFL's Bloggers
                 </span>

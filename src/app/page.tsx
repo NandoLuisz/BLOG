@@ -22,8 +22,6 @@ export default function Home() {
               const posts = await getAllPosts()
               if (posts != null) {
                 setAllPosts(posts)   
-              }else{
-                console.log(posts)
               }
           } catch (error) {
               console.error("Erro ao buscar o post:", error)
@@ -81,7 +79,7 @@ export default function Home() {
               />
             ))
           ) : (
-            <h2 className="w-full font-semibold text2xl">Não tem posts. Seja o primeiro a fazer um!</h2>
+            <h2 className="w-full font-semibold text2xl">Carregando...</h2>
           )}
         </div>
       </section>
