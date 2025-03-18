@@ -1,18 +1,36 @@
 "use client"
+import { getCookie } from '@/api/get-cookie'
 import { CirclePlus, SquarePen, Mail, CloudUpload  } from 'lucide-react'
-import { useRef } from 'react'
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+
 
 export default function AddBlog(){
+
+    const [username, setUsername] = useState<RequestCookie | undefined>(undefined)
+    const [imageProfileUrl, setImageProfileUrl] = useState<RequestCookie | undefined>(undefined)
+
+    useEffect(() => {
+        const fetchCookies = async () => {
+            const cookies = await getCookie(); 
+            setImageProfileUrl(cookies.imageProfileUrl)
+            setUsername(cookies.username)
+        }
+        fetchCookies();
+    }, []);
 
     const fileInputRef = useRef<HTMLInputElement | null>(null)
 
     return (
-        <main className="w-full h-screen flex items-start font-poppins">
-            <div className="h-screen bg-gray-200 flex flex-col gap-10">
-                <div className="flex items-center px-12 py-3 border-b-[2px] border-gray-800">
-                    <img src="/icon-logo.png" width={66} height={66} alt="Logo" />
-                    <span className="text-black text-2xl font-semibold tracking-tighter">NFL's Blogger</span>
-                </div>
+        <main className="w-full min-h-screen flex items-start font-poppins">
+            <div className="min-h-screen bg-gray-200 flex flex-col gap-10">
+                <Link href="/">
+                    <div className="flex items-center px-12 py-3 border-b-[2px] border-gray-800">
+                        <img src="/icon-logo.png" width={66} height={66} alt="Logo" />
+                        <span className="text-black text-2xl font-semibold tracking-tighter">NFL's Blogger</span>
+                    </div>
+                </Link>
                 <div className='flex flex-col items-end gap-5'>
                     <div className='w-64 h-12 bg-white flex items-center gap-3 pl-3 font-semibold text-sm 
                                     tracking-wider border-1 border-balck cursor-pointer shadow-links hover:shadow-links-move'>
@@ -24,18 +42,17 @@ export default function AddBlog(){
                         <SquarePen />
                         <span>Lista de blogs</span>
                     </div>
-                    <div className='w-64 h-12 bg-white flex items-center gap-3 pl-3 font-semibold text-sm 
-                                    tracking-wider border-1 border-balck cursor-pointer shadow-links hover:shadow-links-move'>
-                        <Mail />
-                        <span>Assinaturas</span>
-                    </div>
                 </div>
             </div>
             <div className="w-[1px] min-h-screen bg-gray-800"></div>
             <div className='h-screen flex-1'>
                 <div className='flex justify-between items-center px-10 py-5 border-b-[2px]'>
                     <span>Painel do administrador</span>
-                    <img src="/perfil.jpeg" width={50} height={50} alt="Luís" className='rounded-4xl cursor-pointer' />
+                    {(imageProfileUrl && username) ? (
+                        <img src={imageProfileUrl.value} width={50} height={50} alt={username.value} className='rounded-4xl cursor-pointer' />
+                    ): (
+                        <img src="/perfil.jpeg" width={50} height={50} alt="username" className='rounded-4xl cursor-pointer' />
+                    )}
                 </div>
                 <div className='w-full pl-16 pt-10'>
                     <div className='w-96 flex flex-col gap-4'>
@@ -78,8 +95,8 @@ export default function AddBlog(){
                             <span className='text-lg'>Categoria do Blog</span>
                             <select className='p-3 border-[0.5px] border-gray-400 outline-none text-gray-500'>
                                 <option value="Startup">Startup</option>
-                                <option value="Tecnológia">Tecnológia</option>
-                                <option value="Empreendorismo">Empreendorismo</option>
+                                <option value="Tecnology">Tecnológia</option>
+                                <option value="Lifestyle">Lifestyle</option>
                             </select>
                         </div>
                         <button className='w-46 bg-black text-white py-3 cursor-pointer'>ADD</button>

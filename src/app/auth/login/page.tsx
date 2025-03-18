@@ -4,6 +4,7 @@ import { saveCookie } from "@/api/save-cookie";
 import { api } from "@/lib/api";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -17,6 +18,7 @@ const userLoginFormSchema = z.object({
 type LoginFormFields = z.infer<typeof userLoginFormSchema>;
 
 export default function SignIn() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -38,6 +40,7 @@ export default function SignIn() {
         const { id, username, imageProfileUrl, token } = response.data;
         saveCookie(id, username, imageProfileUrl, token)
         reset();
+        router.push("/");
       }
     } catch (error: any) {
       if (error.response) {

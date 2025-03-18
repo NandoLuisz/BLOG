@@ -35,6 +35,8 @@ export default function Home() {
     if(allPosts == null) return null
 
   useEffect(() => {
+    if(!allPosts) return 
+    
     const filtered = selectFilter !== "Todos"
     ? allPosts.filter(each => each.type.toLowerCase() === selectFilter.toLowerCase())
     : allPosts;
