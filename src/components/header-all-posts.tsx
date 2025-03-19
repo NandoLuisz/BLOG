@@ -37,7 +37,7 @@ export default function HeaderAllPosts(){
         <header className='w-full h-[20vh]'>
             <div className="flex items-center justify-between px-12 py-3 relative">
                 {modalPerfil && (
-                    <div className="absolute min-w-[100px] h-[110px] flex flex-col justify-between rounded-md px-3 py-3 right-12 top-20 border-[1px] border-black">
+                    <div className="absolute min-w-[100px] h-[110px] flex flex-col justify-between rounded-md px-3 py-3 right-12 top-20 border-[2px] border-black">
                         <p className="text-base">{username?.value}</p>
                         <div className="w-full h-[2px] bg-zinc-600"></div>
                         <p className="text-sm hover:text-zinc-700 cursor-pointer">editar perfil</p>
@@ -63,7 +63,7 @@ export default function HeaderAllPosts(){
                     {(imageProfileUrl && username) ? (
                         <img src={imageProfileUrl.value} 
                             width={50} height={50} alt={username.value} 
-                            className={`rounded-4xl cursor-pointer ${modalPerfil ? "border-[1px] border-black" : null}`} 
+                            className={`rounded-4xl cursor-pointer ${modalPerfil ? "border-[2px] border-black" : "border-2 border-white"}`} 
                             onClick={() => setModalPerfil(!modalPerfil)}
                             />
                     ): (

@@ -1,71 +1,74 @@
 "use client"
 
 import { api } from "@/lib/api";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
 
-const userRegisterFormSchema = z.object({
+const creatorRegisterFormSchema = z.object({
     username: z.string().min(3).max(20),
     email: z.string().email(),
     password: z.string().min(6).max(20)
   })
   
-type RegisterFormFields = z.infer<typeof userRegisterFormSchema>
+type RegisterFormFields = z.infer<typeof creatorRegisterFormSchema>
 
 export default function SingUp(){
 
-    const 
-    { register, 
-      handleSubmit, 
-      setError,
-      reset,
-      formState: { errors, isSubmitting },
-    } = useForm<RegisterFormFields>()
+  const [type, setType] = useState('password');
 
-    const onSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
-        const result = userRegisterFormSchema.safeParse(data) 
+  const 
+  { register, 
+    handleSubmit, 
+    setError,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormFields>()
+
+  const onSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
+    const result = creatorRegisterFormSchema.safeParse(data) 
+    
+    if(!result.success) return 
+
+    const { username, email, password } = data
+
+    const role  = "ADMIN"
+    const user = {
+      username,
+      password,
+      email,
+      role
+    }
+  
+    try {
+      const response = await api.post("auth/register-creator", JSON.stringify(user))
+      if(response.status === 200) console.log("Usuário cadastrado com sucesso!")
+      reset()  
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        const errorMessage = error.response.data
+        console.error(errorMessage)
         
-        if(!result.success) return 
-    
-        const { username, email, password } = data
-
-        const role  = "ADMIN"
-        const user = {
-          username,
-          password,
-          email,
-          role
-        }
-    
-        try {
-          const response = await api.post("auth/register-creator", JSON.stringify(user))
-          if(response.status === 200) console.log("Usuário cadastrado com sucesso!")
-          reset()  
-        } catch (error: any) {
-          if (error.response && error.response.status === 400) {
-            const errorMessage = error.response.data
-            console.error(errorMessage)
-            
-            if (errorMessage === "Usuário já cadastrado.") {
-              setError("username", { message: errorMessage });
-            } else if (errorMessage === "Email já cadastrado.") {
-              setError("email", { message: errorMessage });
-            } else {
-              setError("root", { message: "Erro inesperado ao registrar o usuário." });
-            }
-    
-          } else {
-            console.error("Erro desconhecido:", error);
-            setError("root", { message: "Erro de conexão com o servidor." });
-          }
+        if (errorMessage === "Usuário já cadastrado.") {
+          setError("username", { message: errorMessage });
+        } else if (errorMessage === "Email já cadastrado.") {
+          setError("email", { message: errorMessage });
+        } else {
+          setError("root", { message: "Erro inesperado ao registrar o usuário." });
         }
 
-        console.log(user)
+      } else {
+        console.error("Erro desconhecido:", error);
+        setError("root", { message: "Erro de conexão com o servidor." });
       }
+    }
+
+      console.log(user)
+    }
 
     return(
         <main className="w-full h-screen flex items-center justify-center">
@@ -112,7 +115,7 @@ export default function SingUp(){
                             type="text" 
                             className="py-2 px-2 border-b-2 border-zinc-300 outline-none"
                             placeholder="Digite seu usuário"
-                            />
+                        />
                             {errors.username && <span className="text-red-700 text-xs">{errors.username.message}</span>}
                     </div>
                     <div className="flex flex-col">
@@ -131,7 +134,7 @@ export default function SingUp(){
                             className="py-2 px-2 border-b-2 border-zinc-300 outline-none"/>
                             {errors.email && <span className="text-red-700 text-xs mb-5">{errors.email.message}</span>}
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <span className="font-medium">Senha</span>
                         <input 
                             {...register("password", 
@@ -141,11 +144,22 @@ export default function SingUp(){
                                                               message: "Senha precisa ter no minímo 6 digitos"
                                                             },
                                                             })} 
-                            type="password" 
+                            type={type} 
                             className="py-2 px-2 border-b-2 border-zinc-300 outline-none"
                             placeholder="Digite sua senha"
                             />
                             {errors.password && <span className="text-red-700 text-xs">{errors.password.message}</span>}
+                            {type === 'password' ? (
+                              <Eye 
+                                className="absolute right-5 bottom-2 text-zinc-400"
+                                onClick={() => setType('text')}
+                              />
+                            ) : (
+                              <EyeOff  
+                                className="absolute right-5 bottom-2 text-zinc-400"
+                                onClick={() => setType('password')}
+                            />
+                            )}
                     </div>
                     <button 
                         disabled={isSubmitting} 

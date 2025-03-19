@@ -2,9 +2,10 @@
 
 import { saveCookie } from "@/api/save-cookie";
 import { api } from "@/lib/api";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -18,6 +19,9 @@ const userLoginFormSchema = z.object({
 type LoginFormFields = z.infer<typeof userLoginFormSchema>;
 
 export default function SignIn() {
+
+  const [type, setType] = useState('password');
+
   const router = useRouter();
   const {
     register,
@@ -96,15 +100,26 @@ export default function SignIn() {
             />
             {errors.username && <span className="text-red-700 text-xs">{errors.username.message}</span>}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col relative">
             <span className="font-medium">Senha</span>
             <input
               {...register("password", { required: "Senha é obrigatória" })}
-              type="password"
+              type={type}
               placeholder="Digite sua senha"
               className="py-2 px-2 outline-none border-b-[1px] border-zinc-400"
             />
             {errors.password && <span className="text-red-700 text-xs">{errors.password.message}</span>}
+            {type === 'password' ? (
+              <Eye 
+                className="absolute right-5 bottom-2 text-zinc-400"
+                onClick={() => setType('text')}
+              />
+            ) : (
+              <EyeOff  
+                className="absolute right-5 bottom-2 text-zinc-400"
+                onClick={() => setType('password')}
+            />
+            )}
           </div>
           <button
             disabled={isSubmitting}
