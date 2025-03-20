@@ -1,60 +1,55 @@
-"use client"
+"use client";
 
-import HeaderAllPosts from "@/components/header-all-posts"
-import MostPopularPost from '@/components/most-popular-post'
-import MainIntroPosts from "@/components/main-intro-posts"
+import { useEffect, useState } from "react";
+import HeaderAllPosts from "@/components/header-all-posts";
+import MostPopularPost from "@/components/most-popular-post";
+import MainIntroPosts from "@/components/main-intro-posts";
+import Footer from "@/components/footer";
+import CardPost from "@/components/card-post";
+import { getAllPosts, PostResponse } from "@/api/get-all-posts";
 
-const filters = ["Todos", "Tecnologia", "Startups", "Lifestyle"]
-
-import Footer from "@/components/footer"
-import CardPost from "@/components/card-post"
-import { useEffect, useState } from "react"
-import { getAllPosts, PostResponse } from "@/api/get-all-posts"
+const filters = ["Todos", "Tecnológia", "Startups", "Lifestyle"];
 
 export default function Home() {
-  const [selectFilter, setSelectFilter] = useState<string>("Todos")
-  const [postsFiltered, setPostsFiltered] = useState<PostResponse[] | null>([])
-  const [allPosts, setAllPosts] = useState<PostResponse[] | null>([])
+  const [selectFilter, setSelectFilter] = useState<string>("Todos");
+  const [postsFiltered, setPostsFiltered] = useState<PostResponse[]>([]);
+  const [allPosts, setAllPosts] = useState<PostResponse[]>([]);
 
   useEffect(() => {
-        async function fetchPost() {
-          try {
-              const posts = await getAllPosts()
-              if (posts != null) {
-                setAllPosts(posts)   
-              }
-          } catch (error) {
-              console.error("Erro ao buscar o post:", error)
-          }
+    async function fetchPosts() {
+      try {
+        const posts = await getAllPosts()
+        if (posts) {
+          setAllPosts(posts)
+          setPostsFiltered(posts)
         }
-  
-        fetchPost()
-  
-    }, [])
-
-    if(allPosts == null) return null
+      } catch (error) {
+        console.error("Erro ao buscar os posts:", error)
+      }
+    }
+    fetchPosts()
+  }, [])
 
   useEffect(() => {
-    if(!allPosts) return 
-    
-    const filtered = selectFilter !== "Todos"
-    ? allPosts.filter(each => each.type.toLowerCase() === selectFilter.toLowerCase())
-    : allPosts;
-
-    setPostsFiltered(filtered)
+    console.log(selectFilter)
+    if(selectFilter != "Todos") {
+      let filtered = allPosts.filter(each => each.type === selectFilter)
+      console.log("filtered:", filtered)
+      setPostsFiltered(filtered)
+    }else{
+      setPostsFiltered(allPosts)
+    }
 
   }, [allPosts, selectFilter])
 
-  console.log(allPosts)
-
   return (
-    <div className='w-full min-h-screen font-poppins'>
+    <div className="w-full min-h-screen font-poppins">
       <HeaderAllPosts />
       <MainIntroPosts />
-      <section className='w-full flex flex-col items-center'>
+      <section className="w-full flex flex-col items-center">
         <MostPopularPost />
-        <div className="w-full flex gap-8 justify-center my-10 ">
-          {filters.map(filter => 
+        <div className="w-full flex gap-8 justify-center my-10">
+        {filters.map(filter => 
             filter === selectFilter ? (
               <span 
                 key={filter} 
@@ -68,22 +63,20 @@ export default function Home() {
             )
           )}
         </div>
-        <div className="w-[78%] grid grid-cols-4 gap-5">
-          {postsFiltered && postsFiltered.length > 0 ? (
-            postsFiltered.slice(1).map((post: PostResponse) => (
+        {postsFiltered.length != 1 && (
+          <div className="w-[78%] grid grid-cols-4 gap-5">
+            {postsFiltered.slice(1).map((post) => (
               <CardPost 
-                key={post.id} 
+                key={post.id}
                 id={post.id} 
                 imagePostUrl={post.imagePostUrl} 
                 type={post.type} 
                 creator={post.creator} 
                 title={post.title}
               />
-            ))
-          ) : (
-            <h2 className="w-full font-semibold text2xl">Carregando...</h2>
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
       <Footer />
     </div>

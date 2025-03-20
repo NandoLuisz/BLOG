@@ -6,7 +6,7 @@ import { PostResponse } from '@/api/get-all-posts'
 import { getAllPostsByCreator } from '@/api/get-all-posts-by-creator'
 import { getCookie } from '@/api/get-cookie'
 import { api } from '@/lib/api'
-import { CirclePlus, SquarePen, X  } from 'lucide-react'
+import { CirclePlus, SquarePen, UserPen, X  } from 'lucide-react'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -87,7 +87,7 @@ export default function BlogList(){
                     </div>
                 </div>
             )}
-            <div className="h-[120vh] bg-gray-200 flex flex-col gap-10">
+            <div className="min-h-[120vh] bg-gray-200 flex flex-col gap-10">
                 <Link href="/">
                     <div className="flex items-center px-12 py-3 border-b-[2px] border-gray-800">
                         <img src="/icon-logo.png" width={66} height={66} alt="Logo" />
@@ -102,11 +102,20 @@ export default function BlogList(){
                             <span>Add blogs</span>
                         </div>
                     </Link>
-                    <div className='w-64 h-12 bg-white flex items-center gap-3 pl-3 font-semibold text-sm 
-                                    tracking-wider border-1 border-balck cursor-pointer shadow-links hover:shadow-links-move'>
-                        <SquarePen />
-                        <span>Lista de blogs</span>
-                    </div>
+                    <Link href="/admin/blogList">
+                        <div className='w-64 h-12 bg-white flex items-center gap-3 pl-3 font-semibold text-sm 
+                                        tracking-wider border-1 border-balck cursor-pointer shadow-links hover:shadow-links-move'>
+                            <SquarePen />
+                            <span>Lista de blogs</span>
+                        </div>
+                    </Link>
+                    <Link href="/admin/updateProfile">
+                        <div className='w-64 h-12 bg-white flex items-center gap-3 pl-3 font-semibold text-sm 
+                                        tracking-wider border-1 border-balck cursor-pointer shadow-links hover:shadow-links-move'>
+                            <UserPen /> 
+                            <span>Meu perfil</span>
+                        </div>
+                    </Link>
                 </div>
             </div>
             <div className="w-[1px] h-[120vh] bg-gray-800"></div>
@@ -116,17 +125,13 @@ export default function BlogList(){
                     {(imageProfileUrl && username) ? (
                         <img 
                             src={imageProfileUrl.value} 
-                            width={50} 
-                            height={50} 
                             alt={username.value} 
-                            className='rounded-4xl cursor-pointer' />
+                            className='rounded-4xl cursor-pointer w-[55px] h-[55px] object-cover' />
                     ) : (
                         <img 
                             src="/perfil.jpeg" 
-                            width={50} 
-                            height={50} 
                             alt="username" 
-                            className='rounded-4xl cursor-pointer' />
+                            className='rounded-4xl cursor-pointer w-[55px] h-[55px] object-cover' />
                     )}
                 </div>
                 <div className='w-full h-full p-10'>
@@ -147,11 +152,9 @@ export default function BlogList(){
                                     key={post.id}>
                                     <div className='flex gap-2 items-center'>
                                         <img 
-                                            src={post.creator.imageProfileUrl} 
-                                            width={35} 
-                                            height={35}     
+                                            src={post.creator.imageProfileUrl}     
                                             alt={post.creator.username}
-                                            className='rounded-4xl cursor-pointer' />
+                                            className='rounded-4xl cursor-pointer w-[35px] h-[35px] object-cover' />
                                             <span>{truncateTextName((post.creator.username).toString())}</span>
                                         </div>
                                         <span className='flex items-center'>{truncateText((post.title).toString())}</span>

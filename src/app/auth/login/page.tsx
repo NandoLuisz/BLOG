@@ -42,6 +42,7 @@ export default function SignIn() {
       const response = await api.post("auth/login-creator", data);
       if (response.status === 200) {
         const { id, username, imageProfileUrl, token } = response.data;
+        console.log(imageProfileUrl)
         saveCookie(id, username, imageProfileUrl, token)
         reset();
         router.push("/");
