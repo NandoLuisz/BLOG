@@ -21,7 +21,7 @@ export default function CardPost({ id, imagePostUrl, type, creator, title }: Car
                 </div>
                 <p className="font-serif">{creator.username}</p>
                 <p className="tracking-tighter">{title}</p>
-                <Link href={`/post/${id}`}>
+                <Link href={`post/${id}`}>
                 <button className="flex bg-zinc-100 px-2 py-[0.5px] rounded-md hover:bg-zinc-200 cursor-pointer">
                     Ler mais  
                     <ArrowUpRight />

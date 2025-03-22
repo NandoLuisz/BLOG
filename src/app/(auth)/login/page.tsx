@@ -1,6 +1,6 @@
 "use client";
 
-import { saveCookie } from "@/api/save-cookie";
+import { setCookie } from "@/api/set-cookie";
 import { api } from "@/lib/api";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
@@ -41,9 +41,8 @@ export default function SignIn() {
     try {
       const response = await api.post("auth/login-creator", data);
       if (response.status === 200) {
-        const { id, username, imageProfileUrl, token } = response.data;
-        console.log(imageProfileUrl)
-        saveCookie(id, username, imageProfileUrl, token)
+        const { token } = response.data;
+        setCookie(token)
         reset();
         router.push("/");
       }
@@ -132,7 +131,7 @@ export default function SignIn() {
         </form>
         <div className="flex items-center gap-2 text-zinc-600 mt-10">
           <span>Ainda não tem uma conta?</span>
-          <Link href="/auth/register">
+          <Link href="/register">
             <span className="bg-zinc-500 text-white px-2 py-1 rounded-md border-[0.5px] border-zinc-400 cursor-pointer">
               Registrar
             </span>

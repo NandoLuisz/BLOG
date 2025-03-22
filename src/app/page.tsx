@@ -8,7 +8,7 @@ import Footer from "@/components/footer";
 import CardPost from "@/components/card-post";
 import { getAllPosts, PostResponse } from "@/api/get-all-posts";
 
-const filters = ["Todos", "Tecnológia", "Startups", "Lifestyle"];
+const filters = ["Todos", "Tecnologia", "Startups", "Lifestyle"];
 
 export default function Home() {
   const [selectFilter, setSelectFilter] = useState<string>("Todos");
@@ -63,7 +63,7 @@ export default function Home() {
             )
           )}
         </div>
-        {postsFiltered.length != 1 && (
+        {postsFiltered.length != 1 ? (
           <div className="w-[78%] grid grid-cols-4 gap-5">
             {postsFiltered.slice(1).map((post) => (
               <CardPost 
@@ -76,6 +76,8 @@ export default function Home() {
               />
             ))}
           </div>
+        ) : (
+          <p>Carregando....</p>
         )}
       </section>
       <Footer />

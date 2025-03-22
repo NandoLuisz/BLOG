@@ -51,7 +51,6 @@ export default function SingUp(){
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errorMessage = error.response.data
-        console.error(errorMessage)
         
         if (errorMessage === "Usuário já cadastrado.") {
           setError("username", { message: errorMessage });
@@ -176,7 +175,7 @@ export default function SingUp(){
                 </span>
                 <div className="flex items-center gap-2 text-zinc-600 mt-6">
                     <span>Já tem uma conta?</span>
-                    <Link href="/auth/login">
+                    <Link href="/login">
                         <span 
                             className="bg-zinc-500 text-white px-2 py-1 rounded-md border-[0.5px] border-zinc-400 cursor-pointer">
                             Entrar
